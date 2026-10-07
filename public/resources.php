@@ -1,0 +1,10 @@
+<?php require __DIR__ . '/../app/bootstrap.php'; $user = require_user(); render_header('Resource shelf', 'resources', $user);
+$resources = [
+    ['Django Girls tutorial', 'A friendly, step-by-step introduction to building a website with Python and Django.', 'PYTHON + DJANGO', 'https://tutorial.djangogirls.org/en/'],
+    ['MDN: Learn web development', 'Learn the building blocks of the web, from meaningful HTML to responsive CSS.', 'HTML + CSS', 'https://developer.mozilla.org/en-US/docs/Learn_web_development'],
+    ['The PHP manual', 'Go straight to the source for PHP syntax, forms, functions, and language features.', 'PHP', 'https://www.php.net/manual/en/'],
+    ['Django Girls coaching guide', 'Ideas for helping beginners learn with patience, clarity, and encouragement.', 'COMMUNITY', 'https://coach.djangogirls.org/'],
+    ['PHP password hashing', 'Understand how password_hash and password_verify protect stored passwords.', 'SECURITY', 'https://www.php.net/manual/en/faq.passwords.php'],
+    ['GitHub Skills', 'Build confidence with Git, repositories, and the everyday workflow of sharing code.', 'GIT + GITHUB', 'https://skills.github.com/'],
+]; ?>
+<main class="workspace container" id="main"><?php workspace_nav('resources', $user); ?><div class="workspace-main"><p class="eyebrow">FEED YOUR CURIOSITY</p><h1>Your resource shelf.</h1><p class="lead">Good guides. Clear explanations. A next step when you need one.</p><div class="resource-grid"><?php foreach ($resources as [$name, $description, $category, $url]): ?><article class="resource-card"><p class="eyebrow"><?= e($category) ?></p><h2><?= e($name) ?></h2><p><?= e($description) ?></p><a class="text-link" href="<?= e($url) ?>" target="_blank" rel="noopener noreferrer">Open guide <span class="sr-only">: <?= e($name) ?> (new tab)</span><?= icon('arrow') ?></a></article><?php endforeach; ?></div><div class="shelf-note"><?= icon('book') ?><p>All guides open on their publishers’ websites in a new tab. Your learning path and progress stay here.</p></div></div></main><?php render_footer(); ?>

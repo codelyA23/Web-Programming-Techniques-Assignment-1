@@ -1,0 +1,7 @@
+/storage/*
+!/storage/.gitkeep
+/tests/.runtime/
+/tmp/
+.env
+.DS_Store
+Thumbs.db
