@@ -1,19 +1,21 @@
 # Verification record
 
-## Automated checks
+## XAMPP integration checks
 
-`tests/smoke.py` passed all **39 HTTP integration checks** during development. It uses a separate temporary database and starts its own PHP server. These checks verify behaviour rather than mirroring individual lines of implementation.
+`tests/smoke.php` passed **50 checks** on 8 October 2026 against XAMPP Apache and MySQL/MariaDB. It submits real HTTP requests and verifies records through PDO MySQL. It never starts services or uses another database. Unique test accounts, their cascading progress/activity records, and the suite's rate-limit contributions are removed afterwards; other accounts remain untouched.
 
-Covered: logo presence; cookie protections; content security policy; authentication guards on four pages; private database location; POST-only logout; invalid CSRF rejection; invalid registration; successful registration; duplicate emails; stored password hash; wrong and correct passwords; session rotation; personalised dashboard; wrong and correct lesson answers; CSRF protection for progress; duplicate completion; dashboard updates; all four lessons; completed-path state; missing lessons; session-owned profile updates; output escaping; account isolation; invalid and valid logout; access after logout; replay of a destroyed cookie; persistent progress; idle expiry; repeated failure throttling; and SQL injection resistance.
+Coverage: Apache serving; logo; script-free HTML and policy; cookie protections; four authentication guards; four Apache private-folder protections; POST-only logout; invalid CSRF; server validation; registration; duplicate emails; password hash; wrong/correct login; session rotation; personalised dashboard; lesson validation; progress CSRF; completion; duplicate completion; all four lessons; finished state; unknown lesson; session-owned profile updates; output escaping; account isolation; logout CSRF; session destruction; access after logout; cookie replay; persistent MySQL progress; idle expiry; recorded failures; throttling; SQL injection resistance.
 
-All PHP source files also passed PHP's syntax check.
+All PHP source files passed syntax checks. Direct CLI execution of an application page was rejected with XAMPP startup guidance. Only the test runner uses PHP CLI, to submit HTTP requests to Apache.
 
-## Browser checks
+## Service dependency
 
-See the saved screenshots in `docs/screenshots/` for the home page, signup, login, and dashboard. Browser inspection covers desktop and mobile layouts and the main navigation, form labels, password visibility control, knowledge check, profile, and logout workflow.
+With Apache running and MySQL stopped, an actual login POST returned **HTTP 503**, with instructions to start MySQL. No database fallback exists. After the user restarted MySQL, all 50 integration checks passed. The application rejects PHP's standalone server and CLI because it requires Apache's PHP module. If Apache is stopped, no PHP page can load through localhost. Public static content can display with Apache alone because it does not query account records.
+
+## Browser evidence
+
+Screenshots in `docs/screenshots/` document the home, signup, login and dashboard served through XAMPP Apache. Desktop and mobile layouts were reviewed. Password fields remain concealed; there is no JavaScript visibility toggle.
 
 ## Practical limits
 
-The automated suite is repeatable evidence for the coursework workflow, not a production audit. The local development server uses HTTP, so the cookie's Secure flag is enabled only when the request is served through HTTPS. Server deployments must expose only `public/`, keep storage private, and use HTTPS.
-
-The email field identifies an account but is not verified through an email service. Rate limiting protects against repeated failures with account and IP buckets; a production system would need a broader abuse strategy. No password-recovery or administrator feature is included in the brief.
+This is coursework verification rather than a production audit. Local XAMPP uses HTTP; Secure cookies are enabled when served through HTTPS. Public hosting requires HTTPS and a dedicated restricted database user. `.htaccess` protection requires Apache `AllowOverride All`, enabled in the tested XAMPP installation. Email verification, recovery and administrator roles are outside the brief.

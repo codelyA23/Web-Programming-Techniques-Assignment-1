@@ -2,7 +2,7 @@
 
 Web Programming Assignment 1 | Limkokwing University Sierra Leone
 
-Student: [First Name] [Last Name] | ID: [Student ID] | Programme: BSEM | Semester: 5 | Year: 2026
+Student: Mohamed Sow | ID: 905004376 | Programme: BSEM | Semester: 5 | Year: 2026
 
 ## Project purpose and local context
 
@@ -22,7 +22,7 @@ The custom SVG illustration depicts two women making a website together. It rema
 
 ## Home page screenshot
 
-Figure 1 shows the complete desktop home page captured from the running PHP application. Original-resolution desktop and mobile screenshots are included with the repository.
+Figure 1 shows the complete desktop home page captured from XAMPP Apache. Desktop and mobile screenshots are included with the repository.
 
 ![Complete home page](screenshots/home-desktop.jpg)
 
@@ -44,7 +44,7 @@ The profile page updates the learner’s name and goal. The resource shelf links
 
 Desktop layouts pair text with illustration and use a sidebar for the workspace. On a phone, the hero, forms and cards stack, and the sidebar becomes compact navigation. Controls have labels, visible keyboard focus and clear errors. Completion is identified by text as well as colour. A skip link leads to main content, decorative icons are hidden from assistive technology and reduced-motion preferences are respected.
 
-Core registration, login, profile, lessons and logout work without JavaScript. JavaScript only adds password visibility and validation-summary focus. Local artwork and system fonts reduce external requests and keep the application usable without Internet access after installation.
+Every form is handled by PHP without JavaScript. Local artwork and system fonts avoid external requests. The application runs from htdocs through XAMPP Apache; MySQL must be running for account and progress reads and writes.
 
 ---
 
@@ -52,7 +52,7 @@ Core registration, login, profile, lessons and logout work without JavaScript. J
 
 Plain PHP handles requests and renders HTML. Shared bootstrap and view functions avoid repeating authentication, database and layout logic. Lesson data is an array; loops render the learning path, while conditional statements select completed states, validation feedback and the next lesson. This demonstrates variables, arrays, functions, loops, forms and sessions.
 
-PDO connects to SQLite, a relational database that needs no separate server. The supplied brief requires PHP authentication without prescribing MySQL. Users, progress and activity are linked through account IDs, and foreign keys preserve relationships. A unique email constraint protects against duplicate registrations, including simultaneous submissions.
+PDO uses native prepared statements to connect to XAMPP MySQL/MariaDB. Import database/schema.sql through phpMyAdmin before use. Users, progress and activity are linked by foreign keys; a unique email constraint prevents duplicate accounts. All database operations require the running MySQL server.
 
 ## Password and database protection
 
@@ -66,15 +66,15 @@ Successful login regenerates the session identifier. Session cookies use HttpOnl
 
 Registration, login, profile changes, progress and logout all validate a CSRF token. Login failures are limited through persistent account and IP buckets. Generic login errors avoid confirming an email’s existence. Security headers restrict scripts, framing and content interpretation. Responses containing account data are marked no-store.
 
-Only public/ is served. Database and session files are kept in private storage outside that document root and excluded from Git. The development server is intended for local presentation; public deployment requires HTTPS and appropriate server configuration. Email verification, recovery and a production audit are outside this prototype’s scope.
+The project is installed in C:/xampp/htdocs/salone-studio. Apache denies HTTP access to private folders using .htaccess. MySQL stores account records; storage holds private sessions excluded from Git. PHP rejects execution outside Apache. MySQL outages return HTTP 503 without a fallback database. Public hosting would require HTTPS and restricted database credentials.
 
 ---
 
 ## Verification and assessment evidence
 
-The repeatable HTTP suite passed all 39 checks. It starts a separate local PHP server and disposable database. Tests cover valid and invalid registration, duplicate emails, hashed storage, login errors, session rotation, authentication guards, CSRF, progress persistence, account isolation, output escaping, logout, cookie replay, idle expiry, throttling and SQL injection resistance. All PHP files passed syntax checks.
+The PHP integration suite passed 50 checks through running XAMPP Apache and MySQL. It submits real HTTP forms and verifies records, then removes its own test data. Coverage includes registration, hashes, session rotation, private-folder protection, CSRF, progress, account isolation, escaping, logout, expiry, throttling and SQL injection resistance. All PHP files passed syntax checks.
 
-Browser checks confirmed desktop and phone layouts, password visibility, lesson completion updating progress to 25 percent, profile-goal persistence, resource navigation and secure logout. A mobile logout overlap was corrected and checked again. These checks provide coursework evidence, not a production security certification.
+Browser screenshots document the Apache-served home, signup, login and dashboard. Desktop and phone layouts were reviewed. An actual request while MySQL was stopped returned HTTP 503; database-dependent work resumed only after MySQL restarted. These checks provide coursework evidence, not a production security certification.
 
 | Criterion | Marks | Evidence |
 | --- | --- | --- |
@@ -94,4 +94,4 @@ Browser checks confirmed desktop and phone layouts, password visibility, lesson 
 
 [PHP manual on password hashing](https://www.php.net/manual/en/function.password-hash.php)
 
-The logo remains Django Girls’ property; its resource terms request permission for non-organiser reuse. Illustration and layout are original to this project. AI assistance was used and should be disclosed according to university policy. The student must personalise the footer, review the implementation and personally sign the lecturer’s assessment form.
+The logo remains Django Girls’ property; its resource terms request permission for non-organiser reuse. Illustration and layout are original to this project. AI assistance was used and should be disclosed according to university policy. The footer and report identify Mohamed Sow, student ID 905004376. The student must review the implementation and personally sign the lecturer’s assessment form.

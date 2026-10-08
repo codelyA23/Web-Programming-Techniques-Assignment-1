@@ -2,10 +2,15 @@
 declare(strict_types=1);
 
 const APP_ROOT = __DIR__ . '/..';
+// This coursework runs through XAMPP Apache, not PHP's standalone server or CLI.
+if (PHP_SAPI !== 'apache2handler') {
+    http_response_code(503);
+    exit('Start Apache and MySQL in XAMPP, then open http://localhost/salone-studio/.');
+}
 $site = require APP_ROOT . '/config/site.php';
 date_default_timezone_set('Africa/Freetown');
 
-// Only public/ is exposed by the web server. Accounts and sessions live outside it.
+// Accounts live in MySQL. Apache denies direct access to the session directory.
 $storage = getenv('APP_STORAGE') ?: APP_ROOT . '/storage';
 if (!is_dir($storage . '/sessions') && !mkdir($storage . '/sessions', 0700, true) && !is_dir($storage . '/sessions')) {
     throw new RuntimeException('Cannot create private storage. Check folder permissions.');
@@ -24,13 +29,16 @@ header('Content-Type: text/html; charset=utf-8');
 header('X-Content-Type-Options: nosniff');
 header('X-Frame-Options: DENY');
 header('Referrer-Policy: strict-origin-when-cross-origin');
-header("Content-Security-Policy: default-src 'self'; style-src 'self'; script-src 'self'; img-src 'self'; font-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'");
+header("Content-Security-Policy: default-src 'self'; style-src 'self'; script-src 'none'; img-src 'self'; font-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'");
 header('Cache-Control: no-store, private');
 
 set_exception_handler(function (Throwable $error): void {
     error_log((string)$error);
-    http_response_code(500);
-    echo '<!doctype html><html lang="en"><meta charset="utf-8"><title>Temporarily unavailable</title><h1>We could not open your workspace.</h1><p>Please try again shortly. If the problem continues, check the server storage and database configuration.</p><a href="index.php">Return home</a></html>';
+    http_response_code($error instanceof PDOException ? 503 : 500);
+    $message = $error instanceof PDOException
+        ? 'Start MySQL in the XAMPP Control Panel and import database/schema.sql through phpMyAdmin. Account reads and writes require the MySQL server.'
+        : 'Please try again shortly. If the problem continues, check the server configuration.';
+    echo '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Workspace unavailable</title><link rel="stylesheet" href="assets/style.css"></head><body><main class="container error-page"><p class="eyebrow">XAMPP SERVICE CHECK</p><h1>We could not open your workspace.</h1><p>' . htmlspecialchars($message, ENT_QUOTES, 'UTF-8') . '</p><a class="button" href="index.php">Return home</a></main></body></html>';
 });
 
 function e(mixed $value): string { return htmlspecialchars((string)$value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); }
@@ -50,22 +58,15 @@ function verify_csrf(): void {
 
 function db(): PDO {
     static $pdo;
-    global $storage;
     if ($pdo instanceof PDO) return $pdo;
-    $pdo = new PDO('sqlite:' . $storage . '/portal.sqlite', null, null, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC]);
-    $pdo->exec('PRAGMA foreign_keys = ON; PRAGMA busy_timeout = 5000;');
-    $pdo->exec('CREATE TABLE IF NOT EXISTS users (
-        id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, email TEXT NOT NULL UNIQUE,
-        password_hash TEXT NOT NULL, goal TEXT NOT NULL, created_at TEXT NOT NULL, last_login TEXT
-    ); CREATE TABLE IF NOT EXISTS progress (
-        user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-        lesson_id TEXT NOT NULL, completed_at TEXT NOT NULL, PRIMARY KEY(user_id, lesson_id)
-    ); CREATE TABLE IF NOT EXISTS activity (
-        id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-        description TEXT NOT NULL, created_at TEXT NOT NULL
-    ); CREATE TABLE IF NOT EXISTS attempts (
-        bucket TEXT PRIMARY KEY, failures INTEGER NOT NULL DEFAULT 0, started_at INTEGER NOT NULL
-    );');
+    $config = require APP_ROOT . '/config/database.php';
+    $dsn = sprintf('mysql:host=%s;port=%d;dbname=%s;charset=utf8mb4', $config['host'], $config['port'], $config['database']);
+    $pdo = new PDO($dsn, $config['username'], $config['password'], [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+        PDO::ATTR_EMULATE_PREPARES => false,
+        PDO::ATTR_TIMEOUT => 3,
+    ]);
     return $pdo;
 }
 function query(string $sql, array $params = []): PDOStatement { $stmt = db()->prepare($sql); $stmt->execute($params); return $stmt; }
@@ -102,7 +103,7 @@ function is_throttled(array $buckets): bool {
 function failed_attempt(array $buckets): void {
     query('DELETE FROM attempts WHERE started_at < ?', [time() - 900]);
     foreach ($buckets as $bucket) {
-        query('INSERT INTO attempts (bucket, failures, started_at) VALUES (?, 1, ?) ON CONFLICT(bucket) DO UPDATE SET failures = failures + 1', [$bucket, time()]);
+        query('INSERT INTO attempts (bucket, failures, started_at) VALUES (?, 1, ?) ON DUPLICATE KEY UPDATE failures = failures + 1', [$bucket, time()]);
     }
 }
 function goals(): array { return ['Build my first website', 'Explore a career in tech', 'Support my community']; }

@@ -18,7 +18,7 @@ function render_header(string $title, string $active = 'home', ?array $user = nu
     ?><!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="An independent student prototype for a Django Girls Sierra Leone learning community. Create your account and begin your web journey.">
-<title><?= e($title) ?> · Salone Studio</title><link rel="icon" href="assets/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="assets/style.css"><script src="assets/app.js" defer></script></head>
+<title><?= e($title) ?> · Salone Studio</title><link rel="icon" href="assets/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="assets/style.css"></head>
 <body class="<?= $user ? 'workspace-body' : 'public-body' ?>"><a class="skip-link" href="#main">Skip to content</a>
 <header class="site-header"><div class="header-inner"><a class="brand" href="index.php" aria-label="Django Girls Sierra Leone home"><img src="assets/django-girls.svg" alt="Django Girls" width="172" height="43"><span class="brand-region">SIERRA LEONE <span class="flag" aria-hidden="true"></span></span></a>
 <nav aria-label="Main navigation">

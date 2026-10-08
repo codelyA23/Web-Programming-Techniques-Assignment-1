@@ -1,6 +1,6 @@
 # Presentation walkthrough
 
-1. Start PHP with `-t public` and open the home page. Point out the Django Girls logo, Sierra Leone detail, original illustration, three-step journey and student footer.
+1. Start Apache and MySQL in XAMPP, import `database/schema.sql` through phpMyAdmin once, then open `http://localhost/salone-studio/`. Point out the Django Girls logo, Sierra Leone detail, original illustration, three-step journey and student footer.
 2. Create an account with a test email and a password of at least 10 bytes. Show the name, email, goal and confirmation fields. Explain that browser checks improve feedback while the server validates again.
 3. Log in with a wrong password to show the generic error, then log in correctly. Explain `password_hash`, `password_verify` and session ID rotation.
 4. Show the dashboard. A new account has zero completed lessons. Its greeting and goal come from the database rather than static text.
@@ -12,7 +12,7 @@
 
 ## Explain these source files
 
-- `app/bootstrap.php`: sessions, security headers, SQLite tables, PDO queries, CSRF, authentication guards and login attempt limits.
+- `app/bootstrap.php`: sessions, security headers, MySQL PDO queries, CSRF, authentication guards and login attempt limits.
 - `public/signup.php`: validation, unique email handling and password hashing.
 - `public/login.php`: password verification, failure limits and session rotation.
 - `public/logout.php`: POST-only handling, CSRF check and session destruction.
@@ -21,11 +21,17 @@
 - `app/lessons.php`: arrays containing the learning content.
 - `app/views.php`: reusable functions, output escaping and shared page structure.
 
+- `database/schema.sql`: MySQL tables, unique emails and cascading account relationships.
+- `config/database.php`: XAMPP MySQL connection settings.
+
+## Service demonstration
+
+While Apache stays running, stop MySQL using the XAMPP Control Panel. A login submission or signed-in dashboard should return HTTP 503 with guidance; no account read or write succeeds. Start MySQL again to resume. If Apache stops, the application URL cannot load. Static public information needs Apache but does not query MySQL.
+
 ## Before handing in
 
-- Replace the student name and ID in `config/site.php`.
-- Regenerate the homepage screenshots after changing the footer.
-- Update the matching name and ID in the editable report content, then regenerate its PDF.
+- Verify Mohamed Sow, ID 905004376, BSEM Semester 5 and year 2026 in the footer and report.
+- If details change, refresh screenshots and rebuild the PDF.
 - Print the five-page report in Tahoma 12.
 - Complete and sign the lecturer's original assessment form yourself.
 - Review the university's AI-assistance policy and disclose assistance as required.

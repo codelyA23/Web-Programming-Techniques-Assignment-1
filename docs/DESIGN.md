@@ -12,8 +12,8 @@ Typography and spacing are intentionally restrained. Segoe UI and Tahoma are loc
 
 Mobile layouts stack the hero, cards, forms, and dashboard content. The workspace sidebar becomes compact navigation. Controls have explicit labels, keyboard focus indicators, error feedback, and accessible descriptions. Colour is supported by text labels such as Completed and Up next. Reduced-motion preferences disable smooth scrolling and button transitions.
 
-No themes or plugins are used. HTML, CSS, a small JavaScript enhancement, and plain PHP are sufficient. JavaScript only reveals or hides the password and focuses the validation summary; the core forms and lesson checks are processed on the server.
+No themes or plugins are used. PHP renders HTML and handles all forms; local CSS and SVG assets supply the design. The application contains no JavaScript.
 
-The database is SQLite through PDO. This is a relational store with foreign keys and unique constraints, but it needs no separately configured database server. The brief requires PHP authentication, not a specific database engine. Private data and session files remain outside the web document root and out of the Git repository.
+The database is XAMPP MySQL/MariaDB through PDO with native prepared statements, foreign keys and unique constraints. The project runs from C:/xampp/htdocs/salone-studio through Apache. Import its schema with phpMyAdmin. Apache protects private folders using .htaccess. MySQL must be running for all account reads and writes; there is no fallback database. Runtime sessions and credentials are excluded from Git.
 
-AI assistance should be disclosed according to the university's policy. The student should review the implementation and personalise the footer before submission.
+AI assistance should be disclosed according to the university's policy. The student should review the implementation and verify the supplied footer details before submission.

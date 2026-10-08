@@ -1,12 +1,12 @@
 <?php
 declare(strict_types=1);
 
-// Replace these three values with the student's own details before submission.
+// Student identity displayed in the footer and assignment report.
 return [
-    'student_name' => '[First Name] [Last Name]',
+    'student_name' => 'Mohamed Sow',
     'programme' => 'BSEM',
     'semester' => '5',
-    'student_id' => '[Student ID]',
+    'student_id' => '905004376',
     'year' => '2026',
     'community' => 'Sierra Leone',
 ];

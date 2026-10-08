@@ -1,94 +1,78 @@
 # Salone Studio
 
-An original PHP authentication system and personalised learning dashboard for **Web Programming Assignment 1**, inspired by the Django Girls Freetown community in Sierra Leone.
+A PHP authentication system and personalised learning dashboard for **Web Programming Assignment 1**, inspired by Django Girls Freetown in Sierra Leone.
 
 ![Home page](docs/screenshots/home-desktop.jpg)
 
-## Run locally
+## Run with XAMPP
 
-Requirements: PHP 8.1+ with `pdo_sqlite` and `mbstring`. XAMPP's PHP includes these extensions. No Composer, npm, database server, or Internet connection is required to run the app.
+1. Copy the project's contents into **`C:\xampp\htdocs\salone-studio`**, including the `.htaccess` files.
+2. Start **Apache and MySQL** in the XAMPP Control Panel.
+3. Open **http://localhost/phpmyadmin**, choose Import, and select `database/schema.sql`. This creates `salone_studio` and four tables without dropping existing data.
+4. Open **http://localhost/salone-studio/**, create an account, and log in.
 
-From this project folder:
+XAMPP's PHP needs `pdo_mysql` and `mbstring`. The database is MySQL/MariaDB. Default local credentials are **root with an empty password**, as confirmed for this installation. Change `config/database.php` for another classroom setup, or create an ignored `config/database.local.php` returning an array of overrides. Keep credentials out of GitHub.
 
-```powershell
-C:\xampp\php\php.exe -S 127.0.0.1:8087 -t public
-```
+Apache must serve the application. PHP's standalone server and CLI page execution are rejected. MySQL must be running for account and progress reads and writes. When MySQL stops, database-dependent requests return HTTP 503 with setup guidance. The public homepage can still display with Apache running because it does not query account data. There is no SQLite, browser storage, mock API or fallback database.
 
-Open **http://127.0.0.1:8087**. Create an account and log in. The first database operation automatically creates the SQLite database in `storage/`. Stop the server with Ctrl+C.
-
-For a presentation account, optionally run:
-
-```powershell
-C:\xampp\php\php.exe bin/create-demo.php
-```
-
-Then log in with `demo@example.test` / `Demo-only-2026!`. This is a disposable local demonstration account. **Do not run this optional command on a public server.** There is no automatic seeded login in the application.
-
-### Apache or XAMPP
-
-Configure the Apache document root or a virtual host to point to this project's **public** directory. Do not serve the project root: `app/`, `config/`, `bin/`, and `storage/` must remain outside the web root. The PHP development server command above is the simplest local setup. SQLite is intentional: the supplied rubric requires PHP authentication but does not require MySQL.
-
-For public hosting, use HTTPS, ensure PHP errors are logged rather than displayed, disable the optional demo account, and provide a writable private storage directory. The PHP development server is for local use only.
+PHP renders HTML and processes every form. Local CSS and SVG files provide the appearance. No Composer, npm, Node server, JavaScript or frontend framework is required. Installation creates no default account.
 
 ## Features
 
-- Original home page with an official Django Girls logo and custom Freetown-inspired SVG illustration.
-- Registration with server validation, normalised unique email addresses, password confirmation, and password hashing.
-- Login, session ID rotation, 30-minute idle timeout, and POST-only secure logout.
-- Dashboard with the user's actual name, goal, saved progress, and activity history.
-- Four original short lessons with server-checked questions and persistent completion records.
-- Editable profile and a resource shelf linking to official learning materials.
-- Responsive layouts, labelled controls, keyboard focus styles, reduced-motion support, and validation feedback.
-- Local assets and progressive enhancement: the core workflow works without JavaScript.
+- Original responsive homepage with the official Django Girls logo and custom Freetown-inspired illustration.
+- Registration with server validation, unique normalised emails, password confirmation and hashing.
+- Login, session rotation, 30-minute idle expiry and POST-only secure logout.
+- Personal dashboard showing actual MySQL account details, goals, progress and activity.
+- Four original lessons with PHP-validated questions and saved completion records.
+- Profile editing, official learning resources, keyboard focus and labelled controls.
 
 ## Assignment checklist
 
 | Criterion | Evidence |
 | --- | --- |
-| Logo display | Official Django Girls logo in the header on every page |
-| Login | `public/login.php` with `password_verify` |
-| Sign up | `public/signup.php`, validation and a unique database constraint |
-| Logout | `public/logout.php`, CSRF check and session destruction |
-| Dashboard | `public/dashboard.php`, real account-specific information |
-| Security | Password hashes, prepared statements, escaped output, CSRF, session protection and rate limits |
-| User experience | Responsive design, form feedback, visible focus and accessible labels |
-| Footer | `config/site.php` supplies name, programme, semester, ID and year |
-| Documentation | Five-page report and home-page screenshots in `docs/` |
+| Logo | Official logo in the shared header |
+| Login and signup | PHP forms, validation, password hashing and verification |
+| Logout | POST, CSRF check and session destruction |
+| Dashboard | Real account-specific goals, progress and activity |
+| Security | Native prepared statements, escaping, CSRF, protected sessions and MySQL rate limits |
+| Footer | Name, programme, semester, ID and year from `config/site.php` |
+| Documentation | Five-page Tahoma 12 report and homepage screenshot in `docs/` |
 
-**Before submission:** replace the name and student ID placeholders in `config/site.php`, regenerate screenshots and the report, print the report, and personally complete and sign the university's assessment form. No assessment form was supplied with the brief; this project does not substitute a signed form.
+Student details are configured as **Mohamed Sow, BSEM, Semester 5, ID 905004376, 2026**. Before submission, review these details, print the report, and personally complete and sign the lecturer's assessment form.
 
-## Project structure
+## Structure
 
 ```text
-app/          Shared security, database, layout helpers and lesson content
-bin/          Optional local presentation account tool
-config/       Student footer details
-public/       Only web-accessible PHP pages and local assets
-storage/      Private runtime database and sessions, excluded from Git
-docs/         Report, design notes, walkthrough and screenshots
-tests/        HTTP integration tests using disposable data
+index.php     Apache-only entry forwarding to public/
+app/          Shared PHP security, database, views and lessons
+config/       MySQL connection and student footer settings
+database/     MySQL schema for phpMyAdmin import
+public/       PHP pages, CSS and SVG assets
+storage/      Private PHP sessions; runtime data excluded from Git
+docs/         Report, walkthrough, design notes and screenshots
+tests/        PHP HTTP checks through running XAMPP services
 ```
+
+Apache denies HTTP access to private folders using `.htaccess`. Directory listings are disabled. Database records live in MySQL, not `storage/`.
 
 ## Verify
 
+With both services running and the schema imported:
+
 ```powershell
-python tests/smoke.py --php C:/xampp/php/php.exe
+C:\xampp\php\php.exe C:\xampp\htdocs\salone-studio\tests\smoke.php
 ```
 
-The suite starts its own local server on an available port, creates a temporary database and sessions, runs **39 HTTP checks**, and removes the temporary data. Python 3 uses only its standard library. See `docs/TESTING.md` for the recorded checks and browser verification.
+The PHP suite passed **50 checks** against Apache and MySQL. It submits real HTTP forms, checks database records, and removes only its own test accounts and rate-limit contributions. It never starts services or creates a replacement database. See `docs/TESTING.md`.
 
 ## Design and attribution
 
-No theme, UI framework, font CDN, or third-party plugin is used. Segoe UI/Tahoma provide a reliable local sans serif; Georgia supplies the editorial accent. Warm orange is inspired by Django Girls; sage green and a coast-and-hills illustration establish the Sierra Leone context.
+No theme, UI framework, font CDN or third-party plugin is used. Local Segoe UI/Tahoma and Georgia supply typography; paper, charcoal, warm orange and sage green form the palette.
 
-- Logo: [Django Girls official resources](https://github.com/DjangoGirls/resources/blob/master/Design/Logo/logo-level-black.svg), upstream commit `85f81166359a90fe4b52f80904875288d66ceefc`.
+- Logo: [Official Django Girls resources](https://github.com/DjangoGirls/resources/blob/master/Design/Logo/logo-level-black.svg), upstream commit `85f81166359a90fe4b52f80904875288d66ceefc`.
 - Organisation: [Django Girls](https://djangogirls.org/en/).
-- Local context: [Django Girls Freetown workshop page](https://djangogirls.org/de/freetown1/), describing the October 2017 event. This project does not claim a current event.
-- Asset terms: the official resources README asks non-organisers to obtain permission from Django Girls before reuse. The logo remains theirs; it is not covered by any project licence. Confirm permission before external reuse.
-- The illustration, layouts, and lesson text are original to this student prototype. It is not an official Django Girls service.
+- Local context: [Freetown workshop](https://djangogirls.org/de/freetown1/), an October 2017 event. The project does not announce a current event.
+- Official resource terms ask non-organisers to obtain permission before reuse. The logo remains theirs; confirm permission before external reuse.
+- Artwork, layouts and lessons are original to this independent student prototype.
 
-## Learning and authorship
-
-This project was developed with AI assistance. Review the source, run the tests, and make sure you can explain the authentication flow and design choices. Follow your university's policy on assistance and attribution. Do not present an invented development history or claim unaided authorship.
-
-This coursework prototype does not include email verification, password recovery, administrator roles, or a production security audit. Those features are outside the supplied authentication-and-dashboard brief.
+AI assistance was used. Review the source and be ready to explain its authentication and design choices. Follow the university's assistance policy. This local coursework prototype does not include email verification, password recovery, administrator roles or a production audit. Public deployment would require HTTPS and a dedicated restricted database user.

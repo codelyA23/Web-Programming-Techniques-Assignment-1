@@ -1,5 +1,7 @@
 /storage/*
 !/storage/.gitkeep
+!/storage/.htaccess
+/config/database.local.php
 /tests/.runtime/
 /tmp/
 .env
