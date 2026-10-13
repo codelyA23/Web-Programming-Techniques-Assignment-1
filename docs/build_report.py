@@ -54,9 +54,9 @@ h('Project purpose and local context')
 p('Salone Studio is an independent student prototype for a Django Girls learning community in Sierra Leone. It combines account registration, secure login, a personalised dashboard and logout with a practical web learning path. The dashboard uses saved account data and lesson completion records, giving personalised information a useful purpose.')
 p('The official Django Girls Freetown page documents a workshop held in October 2017. That local connection informs the concept. The portal does not claim to announce a current workshop, represent the organisation officially, or award qualifications. Its purpose is a student-built learning space with working authentication and account-specific information.')
 h('Visual identity and design choices')
-p('The official Django Girls logo appears at the top of every page. Warm orange references the organisation’s identity, while paper backgrounds, charcoal text and sage green make the learning space feel approachable. The Salone Studio name, restrained Sierra Leone flag detail, Freetown coordinates and original coast-and-hills illustration establish a local identity.')
-p('Strong headings, generous spacing and consistent dark action buttons make the next step clear. Segoe UI and Tahoma provide readable local system typography; Georgia adds an editorial accent. The five-page report uses embedded Tahoma at 12 points. No purchased theme, UI framework, third-party plugin or remote font service is used.')
-p('The custom SVG illustration depicts two women making a website together. It remains sharp on different screens and loads locally. The project prioritises an encouraging learning experience and avoids invented community statistics or workshop bookings.')
+p('The official Django Girls logo appears at the top of every page. Orange references the organisation’s identity, while cream backgrounds, deep navy headings and white cards create an approachable learning space. The Salone Studio name, restrained Sierra Leone flag detail, Freetown coordinates and original coast-and-hills illustration establish a local identity.')
+p('Bold headings, orange pill buttons, floating panels and soft shadows make the next step clear. Segoe UI and Tahoma provide local typography; a small Georgia accent remains in the footer. The five-page report uses embedded Tahoma at 12 points. No purchased theme, UI framework, third-party plugin or remote font service is used.')
+p('The original SVG depicts two women making a website together. Floating notes and illustrated cards add depth with CSS. Cards lift on hover; reduced-motion preferences disable transitions. The project prioritises an encouraging learning experience and avoids invented community statistics or workshop bookings.')
 page()
 
 h('Home page screenshot')
@@ -95,7 +95,7 @@ page()
 
 h('Verification and assessment evidence')
 p('The PHP integration suite passed 50 checks through running XAMPP Apache and MySQL. It submits real HTTP forms and verifies records, then removes its own test data. Coverage includes registration, hashes, session rotation, private-folder protection, CSRF, progress, account isolation, escaping, logout, expiry, throttling and SQL injection resistance. All PHP files passed syntax checks.')
-p('Browser screenshots document the Apache-served home, signup, login and dashboard. Desktop and phone layouts were reviewed. An actual request while MySQL was stopped returned HTTP 503; database-dependent work resumed only after MySQL restarted. These checks provide coursework evidence, not a production security certification.')
+p('Updated screenshots document the Apache-served home, signup, login and dashboard. The visual refresh was checked at phone, tablet and desktop widths. An actual request while MySQL was stopped returned HTTP 503; database-dependent work resumed only after MySQL restarted. These checks provide coursework evidence, not a production security certification.')
 rows = [['Rubric criterion', 'Marks', 'Implementation evidence'],
     ['Logo display', '2', 'Shared header with official logo'],
     ['Login and signup', '20', 'Validated forms and hashed accounts'],

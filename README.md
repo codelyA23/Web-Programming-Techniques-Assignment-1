@@ -47,7 +47,7 @@ index.php     Apache-only entry forwarding to public/
 app/          Shared PHP security, database, views and lessons
 config/       MySQL connection and student footer settings
 database/     MySQL schema for phpMyAdmin import
-public/       PHP pages, CSS and SVG assets
+public/       PHP pages, shared layouts, custom CSS theme and SVG assets
 storage/      Private PHP sessions; runtime data excluded from Git
 docs/         Report, walkthrough, design notes and screenshots
 tests/        PHP HTTP checks through running XAMPP services
@@ -67,7 +67,7 @@ The PHP suite passed **50 checks** against Apache and MySQL. It submits real HTT
 
 ## Design and attribution
 
-No theme, UI framework, font CDN or third-party plugin is used. Local Segoe UI/Tahoma and Georgia supply typography; paper, charcoal, warm orange and sage green form the palette.
+No purchased theme, UI framework, font CDN or third-party plugin is used. The custom CSS uses cream backgrounds, navy headings, orange pill buttons, illustrated cards and layered shadows. Local Segoe UI/Tahoma provide typography, with a Georgia accent in the footer wordmark. Hover effects respect reduced-motion preferences.
 
 - Logo: [Official Django Girls resources](https://github.com/DjangoGirls/resources/blob/master/Design/Logo/logo-level-black.svg), upstream commit `85f81166359a90fe4b52f80904875288d66ceefc`.
 - Organisation: [Django Girls](https://djangogirls.org/en/).

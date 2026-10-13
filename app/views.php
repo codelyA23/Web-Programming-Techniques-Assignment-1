@@ -18,9 +18,9 @@ function render_header(string $title, string $active = 'home', ?array $user = nu
     ?><!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="An independent student prototype for a Django Girls Sierra Leone learning community. Create your account and begin your web journey.">
-<title><?= e($title) ?> · Salone Studio</title><link rel="icon" href="assets/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="assets/style.css"></head>
+<title><?= e($title) ?> · Salone Studio</title><link rel="icon" href="assets/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="assets/style.css"><link rel="stylesheet" href="assets/theme.css?v=20261013r2"></head>
 <body class="<?= $user ? 'workspace-body' : 'public-body' ?>"><a class="skip-link" href="#main">Skip to content</a>
-<header class="site-header"><div class="header-inner"><a class="brand" href="index.php" aria-label="Django Girls Sierra Leone home"><img src="assets/django-girls.svg" alt="Django Girls" width="172" height="43"><span class="brand-region">SIERRA LEONE <span class="flag" aria-hidden="true"></span></span></a>
+<header class="site-header"><div class="header-top container"><p><?= icon('spark') ?> A little curiosity. A world of possibility.</p><span><span class="flag" aria-hidden="true"></span> ROOTED IN SIERRA LEONE</span></div><div class="header-inner"><a class="brand" href="index.php" aria-label="Django Girls Sierra Leone home"><img src="assets/django-girls.svg" alt="Django Girls" width="172" height="43"><span class="brand-region">SIERRA LEONE <span class="flag" aria-hidden="true"></span></span></a>
 <nav aria-label="Main navigation">
 <?php if ($user): ?>
 <a href="dashboard.php" <?= $active === 'dashboard' ? 'aria-current="page"' : '' ?>>My workspace</a><a href="resources.php" <?= $active === 'resources' ? 'aria-current="page"' : '' ?>>Resources</a><a class="avatar" href="profile.php" aria-label="Your profile" <?= $active === 'profile' ? 'aria-current="page"' : '' ?>><?= e(mb_strtoupper(mb_substr($user['name'], 0, 1))) ?></a>

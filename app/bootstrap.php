@@ -38,7 +38,7 @@ set_exception_handler(function (Throwable $error): void {
     $message = $error instanceof PDOException
         ? 'Start MySQL in the XAMPP Control Panel and import database/schema.sql through phpMyAdmin. Account reads and writes require the MySQL server.'
         : 'Please try again shortly. If the problem continues, check the server configuration.';
-    echo '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Workspace unavailable</title><link rel="stylesheet" href="assets/style.css"></head><body><main class="container error-page"><p class="eyebrow">XAMPP SERVICE CHECK</p><h1>We could not open your workspace.</h1><p>' . htmlspecialchars($message, ENT_QUOTES, 'UTF-8') . '</p><a class="button" href="index.php">Return home</a></main></body></html>';
+    echo '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Workspace unavailable</title><link rel="stylesheet" href="assets/style.css"><link rel="stylesheet" href="assets/theme.css?v=20261013r2"></head><body><main class="container error-page"><p class="eyebrow">XAMPP SERVICE CHECK</p><h1>We could not open your workspace.</h1><p>' . htmlspecialchars($message, ENT_QUOTES, 'UTF-8') . '</p><a class="button" href="index.php">Return home</a></main></body></html>';
 });
 
 function e(mixed $value): string { return htmlspecialchars((string)$value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); }

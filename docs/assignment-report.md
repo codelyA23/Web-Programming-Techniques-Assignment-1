@@ -12,11 +12,11 @@ The official Django Girls Freetown page documents a workshop held in October 201
 
 ## Visual identity and design choices
 
-The official Django Girls logo appears at the top of every page. Warm orange references the organisation’s identity, while paper backgrounds, charcoal text and sage green make the learning space feel approachable. The Salone Studio name, restrained Sierra Leone flag detail, Freetown coordinates and original coast-and-hills illustration establish a local identity.
+The official Django Girls logo appears at the top of every page. Orange references the organisation’s identity, while cream backgrounds, deep navy headings and white cards create an approachable learning space. The Salone Studio name, restrained Sierra Leone flag detail, Freetown coordinates and original coast-and-hills illustration establish a local identity.
 
-Strong headings, generous spacing and consistent dark action buttons make the next step clear. Segoe UI and Tahoma provide readable local system typography; Georgia adds an editorial accent. The five-page report uses embedded Tahoma at 12 points. No purchased theme, UI framework, third-party plugin or remote font service is used.
+Bold headings, orange pill buttons, floating panels and soft shadows make the next step clear. Segoe UI and Tahoma provide local typography; a small Georgia accent remains in the footer. The five-page report uses embedded Tahoma at 12 points. No purchased theme, UI framework, third-party plugin or remote font service is used.
 
-The custom SVG illustration depicts two women making a website together. It remains sharp on different screens and loads locally. The project prioritises an encouraging learning experience and avoids invented community statistics or workshop bookings.
+The original SVG depicts two women making a website together. Floating notes and illustrated cards add depth with CSS. Cards lift on hover; reduced-motion preferences disable transitions. The project prioritises an encouraging learning experience and avoids invented community statistics or workshop bookings.
 
 ---
 
@@ -74,7 +74,7 @@ The project is installed in C:/xampp/htdocs/salone-studio. Apache denies HTTP ac
 
 The PHP integration suite passed 50 checks through running XAMPP Apache and MySQL. It submits real HTTP forms and verifies records, then removes its own test data. Coverage includes registration, hashes, session rotation, private-folder protection, CSRF, progress, account isolation, escaping, logout, expiry, throttling and SQL injection resistance. All PHP files passed syntax checks.
 
-Browser screenshots document the Apache-served home, signup, login and dashboard. Desktop and phone layouts were reviewed. An actual request while MySQL was stopped returned HTTP 503; database-dependent work resumed only after MySQL restarted. These checks provide coursework evidence, not a production security certification.
+Updated screenshots document the Apache-served home, signup, login and dashboard. The visual refresh was checked at phone, tablet and desktop widths. An actual request while MySQL was stopped returned HTTP 503; database-dependent work resumed only after MySQL restarted. These checks provide coursework evidence, not a production security certification.
 
 | Criterion | Marks | Evidence |
 | --- | --- | --- |
