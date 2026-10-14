@@ -4,77 +4,77 @@ Web Programming Assignment 1 | Limkokwing University Sierra Leone
 
 Student: Mohamed Sow | ID: 905004376 | Programme: BSEM | Semester: 5 | Year: 2026
 
-## Project purpose and local context
+## The idea behind Salone Studio
 
-Salone Studio is an independent student prototype for a Django Girls learning community in Sierra Leone. It combines account registration, secure login, a personalised dashboard and logout with a practical web learning path. The dashboard uses saved account data and lesson completion records, giving personalised information a useful purpose.
+Salone Studio is a small learning website for women interested in programming. It draws on the Django Girls community in Sierra Leone. Users can sign up, log in and follow four short web lessons. The dashboard shows the learner's own goal and saved progress.
 
-The official Django Girls Freetown page documents a workshop held in October 2017. That local connection informs the concept. The portal does not claim to announce a current workshop, represent the organisation officially, or award qualifications. Its purpose is a student-built learning space with working authentication and account-specific information.
+The official Django Girls Freetown page describes a workshop held in October 2017. That event gives the project a local context. Salone Studio is an independent coursework website. It does not advertise a new workshop or represent Django Girls officially.
 
-## Visual identity and design choices
+## The look of the site
 
-The official Django Girls logo appears at the top of every page. Orange references the organisation’s identity, while cream backgrounds, deep navy headings and white cards create an approachable learning space. The Salone Studio name, restrained Sierra Leone flag detail, Freetown coordinates and original coast-and-hills illustration establish a local identity.
+The Django Girls logo sits at the top of every page. Cream backgrounds keep the pages light, while navy headings and orange buttons stand out. A small Sierra Leone flag, Freetown coordinates and a coast-and-hills illustration connect the design to its local setting.
 
-Bold headings, orange pill buttons, floating panels and soft shadows make the next step clear. Segoe UI and Tahoma provide local typography; a small Georgia accent remains in the footer. The five-page report uses embedded Tahoma at 12 points. No purchased theme, UI framework, third-party plugin or remote font service is used.
+The reference image guided the warm colours and rounded shapes. White cards and soft shadows separate each part of the page. Segoe UI and Tahoma are available locally, with a small Georgia accent in the footer. The CSS was written for this project, without a purchased theme or plugin. This report uses Tahoma at 12 points.
 
-The original SVG depicts two women making a website together. Floating notes and illustrated cards add depth with CSS. Cards lift on hover; reduced-motion preferences disable transitions. The project prioritises an encouraging learning experience and avoids invented community statistics or workshop bookings.
+The illustration shows two women building a website together. It is an SVG file, so it stays sharp on different screens. Floating notes add depth around it. Cards rise slightly on hover, and the CSS turns off transitions for visitors who prefer reduced motion.
 
 ---
 
 ## Home page screenshot
 
-Figure 1 shows the complete desktop home page captured from XAMPP Apache. Desktop and mobile screenshots are included with the repository.
+Figure 1 shows the full home page served by XAMPP Apache. Larger desktop and phone screenshots are also saved in the project folder.
 
 ![Complete home page](screenshots/home-desktop.jpg)
 
 ---
 
-## Page structure and user experience
+## What a learner can do
 
-The home page introduces the purpose and a three-step journey before asking visitors to register. A clear call to action opens signup. The same header, logo and student copyright footer continue across public and signed-in pages, making navigation predictable.
+The home page introduces the studio before asking anyone to create an account. Its main button opens signup. The header and student footer stay in the same place across the site, so the pages feel connected.
 
-Signup asks for a full name, email, learning goal, password and confirmation. Required fields and browser constraints give immediate guidance, while the server checks every submission independently. Invalid values return readable feedback without repopulating passwords. Duplicate email addresses are rejected, including case variations.
+To sign up, a learner enters a name, email, goal and password, then confirms the password. If a field is wrong, the form explains what needs fixing. Password fields stay blank after an error. PHP checks the submission even if browser checks are bypassed, and it rejects an email already in use.
 
-After registration, the user is redirected to login with a confirmation message. Successful login opens a protected dashboard with the user’s name, learning goal, completion percentage and recent activity. A new account starts at zero completed lessons. The next-step card points to the first unfinished lesson.
+Once the account is created, a message asks the learner to log in. The dashboard then greets them by name and shows their goal, progress and recent activity. New accounts start at zero. A card points to the first unfinished lesson.
 
-Four original lessons cover HTML, CSS, PHP and authentication security. Each contains explanations, a code example, a practice challenge and a server-checked question. A correct answer saves one completion record. Progress persists after logout; completing the same lesson twice does not increase the total. This is a learning check rather than a certificate.
+The four lessons cover HTML, CSS, PHP and account security. Each has a short explanation, sample code and a practice task. PHP marks a lesson complete after the learner answers its question correctly. Answering again does not add extra progress. The result is saved for the next visit; it is a learning record rather than a qualification.
 
-The profile page updates the learner’s name and goal. The resource shelf links to official Django Girls, MDN, PHP and GitHub materials. These open in a new tab, leaving the workspace available. Logout is a deliberate button action that ends the session and returns to login.
+My profile lets the learner change their name and goal. The resource shelf links to official guides from Django Girls, MDN, PHP and GitHub. These open in a new tab, so the workspace stays open. Log out ends the session and takes the learner back to the login page.
 
-## Responsive and accessible presentation
+## Using the site on different screens
 
-Desktop layouts pair text with illustration and use a sidebar for the workspace. On a phone, the hero, forms and cards stack, and the sidebar becomes compact navigation. Controls have labels, visible keyboard focus and clear errors. Completion is identified by text as well as colour. A skip link leads to main content, decorative icons are hidden from assistive technology and reduced-motion preferences are respected.
+On a larger screen, the home page text sits beside the illustration. The dashboard has navigation on the left. On a phone, the content stacks in one column and the navigation becomes compact. Form fields have labels and visible keyboard focus. A finished lesson has a text label as well as a colour change. The skip link leads straight to the main content, and screen readers ignore decorative icons.
 
-Every form is handled by PHP without JavaScript. Local artwork and system fonts avoid external requests. The application runs from htdocs through XAMPP Apache; MySQL must be running for account and progress reads and writes.
-
----
-
-## Implementation and account security
-
-Plain PHP handles requests and renders HTML. Shared bootstrap and view functions avoid repeating authentication, database and layout logic. Lesson data is an array; loops render the learning path, while conditional statements select completed states, validation feedback and the next lesson. This demonstrates variables, arrays, functions, loops, forms and sessions.
-
-PDO uses native prepared statements to connect to XAMPP MySQL/MariaDB. Import database/schema.sql through phpMyAdmin before use. Users, progress and activity are linked by foreign keys; a unique email constraint prevents duplicate accounts. All database operations require the running MySQL server.
-
-## Password and database protection
-
-Registration stores the output of password_hash with PASSWORD_DEFAULT. Login uses password_verify, and password_needs_rehash upgrades hashes when necessary. Plain passwords are not stored in the database or activity history. The password length is limited to 72 bytes to avoid bcrypt truncation.
-
-Prepared statements keep user values separate from SQL instructions. The e helper applies htmlspecialchars before account values enter HTML, preventing a stored name from becoming executable markup. Account IDs for progress and profile queries come from the authenticated session, not a submitted user ID.
-
-## Session and request protection
-
-Successful login regenerates the session identifier. Session cookies use HttpOnly and SameSite Lax; the Secure flag is enabled when the request uses HTTPS. Protected pages redirect anonymous users to login, and idle sessions expire after 30 minutes. Logout accepts POST only, verifies a session-bound CSRF token, clears session data, expires the cookie and destroys the stored session.
-
-Registration, login, profile changes, progress and logout all validate a CSRF token. Login failures are limited through persistent account and IP buckets. Generic login errors avoid confirming an email’s existence. Security headers restrict scripts, framing and content interpretation. Responses containing account data are marked no-store.
-
-The project is installed in C:/xampp/htdocs/salone-studio. Apache denies HTTP access to private folders using .htaccess. MySQL stores account records; storage holds private sessions excluded from Git. PHP rejects execution outside Apache. MySQL outages return HTTP 503 without a fallback database. Public hosting would require HTTPS and restricted database credentials.
+The forms send data straight to PHP; they do not need JavaScript. Apache serves the pages, and MySQL stores accounts and progress. Both XAMPP services need to be running for the account features to work. Images and fonts are local files, so they do not need an internet connection.
 
 ---
 
-## Verification and assessment evidence
+## How the PHP code works
 
-The PHP integration suite passed 50 checks through running XAMPP Apache and MySQL. It submits real HTTP forms and verifies records, then removes its own test data. Coverage includes registration, hashes, session rotation, private-folder protection, CSRF, progress, account isolation, escaping, logout, expiry, throttling and SQL injection resistance. All PHP files passed syntax checks.
+PHP builds the pages and handles form data. Shared functions cover sessions, database access, headers and footers. The lessons are held in an array. A loop displays them, while conditions decide which lesson comes next and which ones are finished. Forms and session variables carry the learner's details between requests.
 
-Updated screenshots document the Apache-served home, signup, login and dashboard. The visual refresh was checked at phone, tablet and desktop widths. An actual request while MySQL was stopped returned HTTP 503; database-dependent work resumed only after MySQL restarted. These checks provide coursework evidence, not a production security certification.
+The site connects to XAMPP's MySQL server through PDO. Setup begins by importing database/schema.sql in phpMyAdmin. A unique email rule prevents duplicate accounts. Foreign keys link progress and activity to a valid user, so those records belong to the right account.
+
+## Protecting passwords and data
+
+Registration hashes a password with password_hash and PASSWORD_DEFAULT. Login checks it with password_verify. PHP can also update an older hash when needed. The database never saves the original password. Passwords are limited to 72 bytes to avoid bcrypt ignoring part of a longer value.
+
+Database queries use prepared statements, which treat user input as data rather than SQL instructions. The e helper uses htmlspecialchars before a name or other account value appears on the page. Profile and progress requests take the user ID from the session. A submitted ID cannot make them act on another account.
+
+## Sessions and forms
+
+After login, PHP changes the session ID. Cookies use HttpOnly and SameSite Lax, with Secure enabled over HTTPS. A session expires after 30 minutes without activity. Logout only accepts a POST request. PHP checks its CSRF token, then clears the session and expires the cookie.
+
+Forms use a CSRF token to link a submission to the session that created it. The login page limits repeated failures for both an account and an IP address. Its error message does not reveal whether an email exists. Security headers block scripts and embedding in other pages. Pages with account details tell the browser not to cache them.
+
+The project is installed in C:/xampp/htdocs/salone-studio. Apache's .htaccess rules block direct access to private folders. MySQL holds the account records; the storage folder holds PHP session files that are excluded from GitHub. Application pages require Apache. If MySQL stops, account requests return HTTP 503. Public hosting would also need HTTPS and restricted database credentials.
+
+---
+
+## Checks and assessment evidence
+
+The project passed 50 checks through XAMPP Apache and MySQL. The runner submits real forms and checks the records they create. It covers the path from signup and login to saved progress and logout. Separate checks cover password hashes, CSRF, session expiry, account isolation, escaping and login limits. SQL injection and private-folder access were checked too. The runner removes its own test accounts afterwards. PHP reported no syntax errors in the source files.
+
+The screenshots show the home page, signup, login and dashboard. The layouts were checked on phone, tablet and desktop widths. A request made while MySQL was stopped returned HTTP 503. Once MySQL was running again, the database checks passed. These checks cover the classroom project. Public hosting would need a separate security review.
 
 | Criterion | Marks | Evidence |
 | --- | --- | --- |
@@ -86,7 +86,7 @@ Updated screenshots document the Apache-served home, signup, login and dashboard
 | Footer | 3 | Student fields from site configuration |
 | Screenshot documentation | 5 | Home screenshot and five-page report |
 
-## Sources and asset credits
+## Sources and credits
 
 [Django Girls Freetown community page](https://djangogirls.org/de/freetown1/)
 
@@ -94,4 +94,4 @@ Updated screenshots document the Apache-served home, signup, login and dashboard
 
 [PHP manual on password hashing](https://www.php.net/manual/en/function.password-hash.php)
 
-The logo remains Django Girls’ property; its resource terms request permission for non-organiser reuse. Illustration and layout are original to this project. AI assistance was used and should be disclosed according to university policy. The footer and report identify Mohamed Sow, student ID 905004376. The student must review the implementation and personally sign the lecturer’s assessment form.
+Django Girls owns the logo. Its resource terms ask non-organisers to get permission before using it. The illustration and layout were created for this project. AI assistance was used for the code and this report. Before submission, the code needs to be reviewed and the lecturer's assessment form needs the student's own signature.
